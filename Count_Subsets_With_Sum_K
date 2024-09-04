@@ -1,0 +1,29 @@
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        int n=num.length;
+		int[][] dp=new int[n][tar+1];
+		for(int i=0;i<n;i++){
+			for(int j=0;j<=tar;j++){
+				dp[i][j]=-1;
+			}
+		}
+		int ans=fun(0,n,tar,num,dp);
+        return ans;
+    }
+    public static int fun(int i,int n,int tar,int[] arr,int[][] dp){
+		if(i==n){
+			if(tar==0)return 1;
+			else return 0;
+		}
+		if(dp[i][tar]!=-1)return dp[i][tar];
+		int first=fun(i+1,n,tar,arr,dp);
+		int second=0;
+		if(tar>=arr[i]){
+			second=fun(i+1,n,tar-arr[i],arr,dp);
+		}
+		return dp[i][tar]=(first+second)%1000000007;
+	}
+}
