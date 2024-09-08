@@ -1,0 +1,43 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		int[][][] dp=new int[r][c][c];
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++){
+				for(int k=0;k<c;k++){
+					dp[i][j][k]=-1;
+				}
+			}
+		}
+
+		return fun(0,0,c-1,r,c,grid,dp);
+	}
+
+	public static int fun(int i,int j1,int j2,int r,int c,int[][] grid,int[][][] dp){
+		if(i==r-1){
+			if(j1==j2)return grid[i][j1];
+			return (grid[i][j1]+grid[i][j2]);
+		}
+
+		if(dp[i][j1][j2]!=-1)return dp[i][j1][j2];
+		int ans=0;
+		if(j1==j2){
+			ans+=grid[i][j1];
+		}
+		else{
+			ans+=(grid[i][j1]+grid[i][j2]);
+		}
+		int ans2=0;
+		for(int x=-1;x<=1;x++){
+			int j3=j1+x;
+			for(int y=-1;y<=1;y++){
+				int j4=j2+y;
+				if(j3>=0 && j4>=0 && j3<c && j4<c){
+					ans2=Math.max(ans2,fun(i+1,j3,j4,r,c,grid,dp));
+				}
+			}
+		}
+		return dp[i][j1][j2]=ans+ans2;
+	}
+}
