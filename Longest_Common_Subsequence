@@ -1,0 +1,25 @@
+public class Solution {
+
+	public static int lcs(String s, String t) {
+		int n=s.length();
+		int m=t.length();
+		int[][] dp=new int[n][m];
+		for(int i=0;i<n;i++){
+			for(int j=0;j<m;j++){
+				dp[i][j]=-1;
+			}
+		}
+		int ans=fun(0,0,n,m,s,t,dp);
+		if(ans!=-1)return ans;
+		return 0;
+    }
+	public static int fun(int i,int j,int n,int m,String s,String t,int[][] dp){
+		if(i==n || j==m)return 0;
+		if(dp[i][j]!=-1)return dp[i][j];
+		if(s.charAt(i)==t.charAt(j)){
+			return dp[i][j]=1+fun(i+1,j+1,n,m,s,t,dp);
+		}
+		return dp[i][j]=Math.max(fun(i+1,j,n,m,s,t,dp),fun(i,j+1,n,m,s,t,dp));
+	}
+
+}
