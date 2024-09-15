@@ -1,0 +1,26 @@
+public class Solution {
+    public static int distinctSubsequences(String str, String sub) {
+        int n=str.length();
+        int m=sub.length();
+        int[][] dp=new int[n][m];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                dp[i][j]=-1;
+            }
+        }
+        return fun(0,n,0,m,str,sub,dp);
+    }
+    public static int fun(int i,int n,int j,int m,String str,String sub,int[][] dp){
+        if(i==n || j==m){
+            if(j==m)return 1;
+            else return 0;
+        }
+        if(dp[i][j]!=-1)return dp[i][j];
+        int pick=0;
+        if(str.charAt(i)==sub.charAt(j)){
+            pick=fun(i+1,n,j+1,m,str,sub,dp);
+        }
+        int notPick=fun(i+1,n,j,m,str,sub,dp);
+        return dp[i][j]=(pick+notPick)%1000000007;
+    }
+}
