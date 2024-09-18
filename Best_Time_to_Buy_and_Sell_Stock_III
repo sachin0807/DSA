@@ -1,0 +1,23 @@
+public class Solution {
+    public static int maxProfit(int[] prices) {
+        int n=prices.length;
+        int[][] dp=new int[n][4];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<4;j++){
+                dp[i][j]=-1;
+            }
+        }
+        return fun(0,n,0,prices,dp);
+    }
+    public static int fun(int i,int n,int buy,int[] prices,int[][] dp){
+        if(i==n || buy==4){
+            if(buy%2==0)return 0;
+            else return -1000000000;
+        }
+        if(dp[i][buy]!=-1)return dp[i][buy];
+        if(buy%2==0){
+            return dp[i][buy]=Math.max(fun(i+1,n,buy,prices,dp),(-1)*prices[i]+fun(i+1,n,buy+1,prices,dp));
+        }
+        return dp[i][buy]=Math.max(fun(i+1,n,buy,prices,dp),prices[i]+fun(i+1,n,buy+1,prices,dp));
+    }
+}
