@@ -1,0 +1,26 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution
+{
+public static int maximumProfit(int[] prices, int n, int k)
+    {
+        int[][] dp=new int[n][2*k];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<(2*k);j++){
+                dp[i][j]=-1;
+            }
+        }
+        return fun(0,n,0,k,prices,dp);
+    }
+    public static int fun(int i,int n,int buy,int k,int[] prices,int[][] dp){
+        if(i==n || buy==(2*k)){
+            if(buy%2==0)return 0;
+            else return -1000000000;
+        }
+        if(dp[i][buy]!=-1)return dp[i][buy];
+        if(buy%2==0){
+            return dp[i][buy]=Math.max(fun(i+1,n,buy,k,prices,dp),(-1)*prices[i]+fun(i+1,n,buy+1,k,prices,dp));
+        }
+        return dp[i][buy]=Math.max(fun(i+1,n,buy,k,prices,dp),prices[i]+fun(i+1,n,buy+1,k,prices,dp));
+    }
+}
