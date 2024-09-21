@@ -1,0 +1,33 @@
+public class Solution {
+    public static int longestBitonicSequence(int[] arr, int n) {
+
+        int[][][] dp=new int[n][n+1][2];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<=n;j++){
+                for(int k=0;k<2;k++){
+                    dp[i][j][k]=-1;
+                }
+            }
+        }
+        return fun(0,n,0,0,arr,dp);
+    }
+    public static int fun(int i,int n,int prev,int asc,int[] arr,int[][][] dp){
+        if(i==n)return 0;
+        if(dp[i][prev][asc]!=-1)return dp[i][prev][asc];
+        if(prev==0){
+            return dp[i][prev][asc]=Math.max(1+fun(i+1,n,i+1,asc,arr,dp),fun(i+1,n,prev,asc,arr,dp));
+        }
+        if(arr[i]>arr[prev-1]){
+            if(asc==0){
+                return dp[i][prev][asc]=Math.max(1+fun(i+1,n,i+1,asc,arr,dp),fun(i+1,n,prev,asc,arr,dp));
+            }
+            else {
+                return dp[i][prev][asc]=fun(i+1,n,prev,asc,arr,dp);
+            }
+        }
+        else if(arr[i]<arr[prev-1]){
+            return dp[i][prev][asc]=Math.max(1+fun(i+1,n,i+1,1,arr,dp),fun(i+1,n,prev,asc,arr,dp));
+        }
+        return dp[i][prev][asc]=0;
+    }
+}
