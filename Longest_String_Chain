@@ -1,0 +1,47 @@
+import java.util.Arrays;
+
+public class Solution {
+    public static int longestStrChain(String[] arr) {
+        Arrays.sort(arr,(a,b)->a.length()-b.length());
+        int n=arr.length;
+        int[][] dp=new int[n][n+1];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<=n;j++){
+                dp[i][j]=-1;
+            }
+        }
+        return fun(0,n,0,arr,dp);
+    }
+    public static int fun(int i,int n,int prev,String[] arr,int[][] dp){
+        if(i==n){
+            return 0;
+        }
+        if(dp[i][prev]!=-1)return dp[i][prev];
+        if(prev==0){
+            return dp[i][prev]=Math.max(1+fun(i+1,n,i+1,arr,dp),fun(i+1,n,prev,arr,dp));
+        }
+        int size1=arr[prev-1].length();
+        int size2=arr[i].length();
+        int x=0,y=0;
+        if(size1+1==size2){
+            int count=0;
+            while(x<size1 && y<size2){
+                if(arr[i].charAt(y)==arr[prev-1].charAt(x)){
+                    x++;
+                    y++;
+                }
+                else{
+                    count++;
+                    y++;
+                }
+            }
+            if(count>1){
+                return dp[i][prev]=fun(i+1,n,prev,arr,dp);
+            }
+            else{
+                return dp[i][prev]=Math.max(1+fun(i+1,n,i+1,arr,dp),fun(i+1,n,prev,arr,dp));
+            }
+        }
+        return dp[i][prev]=fun(i+1,n,prev,arr,dp);
+    }
+}
